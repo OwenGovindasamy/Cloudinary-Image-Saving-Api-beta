@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    //TODO: work on delete cloud entry 
     public class PhotosController : BaseController
     {
         [HttpPost]
@@ -28,6 +30,11 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<SearchResult>> Search(string paramsk)
         {
             return await Mediator.Send(new SearchImage.Query{ paramsk = paramsk });
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Delete(string id)
+        {
+            return await Mediator.Send(new Delete.Command { Id = id });
         }
     }
 }

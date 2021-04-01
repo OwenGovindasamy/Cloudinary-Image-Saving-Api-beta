@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,8 @@ namespace WebApplication1.Photos
     public class PhotoAccessor : IPhotoAccessor
     {
         private readonly Cloudinary _cloudinary;
-        public PhotoAccessor(IOptions<CloudinarySettings> config)
+        private readonly DataContext _context;
+        public PhotoAccessor(IOptions<CloudinarySettings> config, DataContext context)
         {
             var acc = new Account
             (
@@ -21,6 +23,7 @@ namespace WebApplication1.Photos
             );
 
             _cloudinary = new Cloudinary(acc);
+            _context = context;
         }
 
         public PhotoUploadResult AddPhoto(IFormFile file, string description)
@@ -62,6 +65,19 @@ namespace WebApplication1.Photos
             .Execute();
 
             return result;
+        }
+
+        public async Task<string> DeletePhoto(string publicId)
+        {
+            var deleteParams = new DeletionParams(publicId);
+
+            var result = _cloudinary.Destroy(deleteParams); // remove from cloud
+
+            var photo = await _context.Photos.FindAsync(publicId);
+            _context.Photos.Remove(photo); // remove from local db
+            _context.SaveChanges();
+
+            return result.Result == "ok" ? result.Result : null;
         }
     }
 }

@@ -1,5 +1,6 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace WebApplication1.Models.Interfaces
 {
@@ -7,5 +8,6 @@ namespace WebApplication1.Models.Interfaces
     {
         PhotoUploadResult AddPhoto(IFormFile file, string description);
         SearchResult SearchPhoto (string paramsk);
+        Task<string> DeletePhoto(string publicId);
     }
 }
