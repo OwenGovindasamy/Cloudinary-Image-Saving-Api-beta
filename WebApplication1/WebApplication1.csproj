@@ -6,6 +6,12 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Videos\**" />
+    <Content Remove="Videos\**" />
+    <EmbeddedResource Remove="Videos\**" />
+    <None Remove="Videos\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="PhotoData.db" />
   </ItemGroup>
   <ItemGroup>

@@ -15,11 +15,9 @@ namespace WebApplication1.Models
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly DataContext _context;
             private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            public Handler(IPhotoAccessor photoAccessor)
             {
-                _context = context;
                 _photoAccessor = photoAccessor;
             }
 

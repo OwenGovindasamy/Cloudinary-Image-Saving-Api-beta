@@ -55,8 +55,8 @@ namespace WebApplication1.Photos
             };
         }
 
-        public SearchResult SearchPhoto(string paramsk)
-        {
+        public async Task<SearchResult> SearchPhoto(string paramsk)
+        { // The cloudinary search method is not available in async hence "return await Task.FromResult(result);"
             SearchResult result = _cloudinary.Search()
             .Expression(paramsk)
             .WithField("context")
@@ -64,7 +64,7 @@ namespace WebApplication1.Photos
             .MaxResults(10)
             .Execute();
 
-            return result;
+            return await Task.FromResult(result);
         }
 
         public async Task<string> DeletePhoto(string publicId)

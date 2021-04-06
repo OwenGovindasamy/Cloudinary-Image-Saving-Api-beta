@@ -16,18 +16,15 @@ namespace WebApplication1.Models
 
         public class Handler : IRequestHandler<Query, SearchResult>
         {
-           private readonly DataContext _context;
             private readonly IPhotoAccessor _photoAcessor;
-            public Handler(DataContext context, IPhotoAccessor photoAcessor)
+            public Handler(IPhotoAccessor photoAcessor)
             {
                 _photoAcessor = photoAcessor;
-                _context = context;
             }
 
             public async Task<SearchResult> Handle(Query request, CancellationToken cancellationToken) 
-            // The cloudinary search method is not available in async
             {
-                var SearchResult = _photoAcessor.SearchPhoto(request.paramsk);
+                var SearchResult = await _photoAcessor.SearchPhoto(request.paramsk);
 
                 if (SearchResult == null) throw new Exception("Not found");
 
